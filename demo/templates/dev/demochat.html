@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
+<script src="{% static 'js/jquery-1.12.3.min.js'%}"></script>
+<script src="{% static 'js/bootstrap.min.js'%}"></script>
+
+<style>
+//吹き出し用の設定
+.popover.show{
+  margin-bottom: 10px;
+}
+//横の画像用の設定
+img.reviews {
+  margin-bottom: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+//並んでいるものを上下中央で揃える設定
+.row-center{
+  text-align: center;
+  letter-spacing: -0.4em;
+}
+//噴出しスタイル設定
+.poparrow{
+  position:relative !important;
+  top:-90px;
+  left:100px;
+  max-width:100%;
+  display:inline;
+}
+
+#footer{
+	left:25%;
+    height:7%;
+    background-color: lightgray;
+    padding:5px;
+    position:absolute;
+    bottom:0px;
+    position: fixed !important;
+}
+
+</style>
+</head>
+{% block custom %}
+{% endblock custom%}
+
+<body>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div id="timeline" class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="height:93vh;overflow-y: scroll;">
+<br>
+  <div class="row row-center">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-5">
+      <img src="{% static '/img/ico_robot.jpg' %}" alt="回答者" class="img-responsive img-circle reviews" />
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">
+        <div class="popover right show" style="position:relative; top=-90px; left=100px; max-width:100%; display:inline;">
+        <div class="arrow"></div>
+        <div class="popover-content">
+          <p>{{firstmsg | linebreaksbr}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="endpos"></div>
+</div><!-- timeline End -->
+
+<div id="footer" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+  <div id="footer_items" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <input id="utterance" name="utterance" type="text" class="White Textbox col-xs-10 col-sm-10 col-md-10 cold-lg-10" placeholder="メッセージを入力してね"/>
+    <span class="footer_icon col-xs-1 col-sm-1 col-md-1 col-lg-1"><img id="sendbtn" src="/static/img/ico_send.jpg" /></span>
+  </div>
+</div>
+
+{% csrf_token%}
+<script>
+// 送信ボタン(画像)クリック時の動作
+$("#sendbtn").click(function(){
+	// 入力テキストをクリアし、ユーザー送信欄にメッセージを出力する
+	var msg = viewUtterance();
+	
+	// メッセージ送受信
+	sedMessage(msg);
+});
+
+// 発話表示関数
+function viewUtterance(){
+	var message = $("#utterance").val();
+	if(message.length <= 0){
+		return false;
+	}
+	
+	$("#utterance").val("");
+	
+	$("#timeline").append("<br>");
+	var base_div = $("<div class='row row-center'>");
+	var arrow_div = $("<div>");
+	var msg_div = $("<div>");
+	var content_div = $("<div>");
+	var icon_div = $("<div class='col-lg-4 col-md-4 col-sm-4 col-xs-5'>");
+	var user_msg = $("<p>");
+	var user_icon = $("<img class='img-responsive img-circle reviews'>");
+	
+	msg_div.addClass("popover left show");
+	msg_div.css("position", "relative");
+	msg_div.css("max-width", "100%");
+	msg_div.css("display", "inline");
+	msg_div.css("margin-left", "0px");
+	msg_div.append("<div class='arrow'></div>");
+	
+	content_div.addClass("popover-content");
+	user_msg.text(message);
+	content_div.append(user_msg);
+	msg_div.append(content_div);
+	
+	arrow_div.addClass("col-lg-8 col-md-8 col-sm-8 col-xs-7");
+	arrow_div.append(msg_div);
+	base_div.append(arrow_div);
+	
+	user_icon.attr("src", "/static/img/ico_user.jpg");
+	user_icon.attr("alt", "質問者");
+	icon_div.append(user_icon);
+	base_div.append(icon_div);
+	
+	$("#timeline").append(base_div);
+	$("#endpos").remove();
+	$("#timeline").append("<div id='endpos'>");
+	$("#timeline").scrollTop($("#endpos").offset().top);
+	
+	return message;
+}
+
+function viewAnswer(msg){
+	$("#timeline").append("<br>");
+	var base_div = $("<div class='row row-center'>");
+	var icon_div = $("<div class='col-lg-4 col-md-4 col-sm-4 col-xs-5'>");
+	var user_icon = $("<img class='img-responsive img-circle reviews'>");
+	var arrow_div = $("<div>");
+	var msg_div = $("<div>");
+	var content_div = $("<div>");
+	var user_msg = $("<p>");
+	
+	user_icon.attr("src", "/static/img/ico_robot.jpg");
+	user_icon.attr("alt", "回答者");
+	icon_div.append(user_icon);
+	base_div.append(icon_div);
+	
+	msg_div.addClass("popover right show");
+	msg_div.css("position", "relative");
+	msg_div.css("max-width", "100%");
+	msg_div.css("display", "inline");
+	msg_div.css("margin-left", "0px");
+	msg_div.append("<div class='arrow'></div>");
+	
+	content_div.addClass("popover-content");
+	user_msg.html(msg);
+	content_div.append(user_msg);
+	msg_div.append(content_div);
+	
+	arrow_div.addClass("col-lg-8 col-md-8 col-sm-8 col-xs-7");
+	arrow_div.append(msg_div);
+	base_div.append(arrow_div);
+	
+	$("#timeline").append(base_div);
+	$("#endpos").remove();
+	$("#timeline").append("<div id='endpos'>");
+	$("#timeline").scrollTop($("#endpos").offset().top);
+}
+
+// 発話送信関数
+function sedMessage(msg){
+	console.log(msg);
+	message = {}
+	message["utterance"] = msg
+	var token = $("input[name='csrfmiddlewaretoken']").val();
+	$.ajax({
+		'url':"/demo/demochat/conversation",
+		'type':'POST',
+		'data':message,
+		'dataType':'json',
+		timeout: 10000,
+		headers: {
+			'X-CSRFToken' : token
+		},
+		'success':function(data){
+			viewAnswer(data["resmsg"]);
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown, response){
+			alert("会話失敗(>_<;)");
+		}
+	});
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,203 @@
+body div{
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.textbase{
+	padding:0;
+	border: 1px solid gray;
+	width:98%;
+}
+
+.textFeature{
+	color:white;
+	background-color: #191970;
+	text-align:center;
+	font-weight:700;
+}
+
+.title{
+	padding: 10px;
+	border: 1px solid #333333;
+	width:120px;
+}
+
+.leftbox{
+	left:30px;
+	float:left;
+	top: 0;
+}
+
+.scatter{
+	position: relative;
+	width:100%;
+	height:100%;
+	top:-120px;
+}
+
+
+.infotable{
+	margin-left:10px;
+	left:50px;
+	top: 0;
+	max-width:80%;
+}
+
+.analogyChart{
+	margin-left:70px;
+	top: 0;
+	max-width:70%;
+}
+
+.chartArea{
+	margin-bottom: 10px;
+	margin-left: 10px;
+	left:540px;
+	top:-110px;
+	width:50%;
+	height:350px;
+
+}
+
+table{
+	border-collapse:collapse;
+}
+
+
+table td{
+	margin-bottom: 10px;
+	border: 1px solid #333333;
+}
+
+.tableinfo{
+	padding: 10px;
+	width:160px;
+}
+
+.tabledata{
+	padding: 15px;
+	width:340px;
+}
+
+.infotable .tabledata{
+	width:230px;
+	text-align:center;
+}
+
+.resultheader td{
+	padding: 10px;
+	width:140px;
+}
+
+.result td{
+	text-align:right;
+	padding-top:10px;
+	font-weight:700;
+}
+
+.result .numCell{
+	color:red;
+	background-color:pink;
+	font-weight:700;
+}
+
+.evidenceArea{
+	top: -250px;
+	left:30px;
+	margin-bottom: 30px;
+	max-width:40%;
+}
+
+.predictionTable th{
+	padding: 10px;
+	
+}
+
+.predictionEvide{
+	width:250px;
+}
+
+.contribution{
+	width:220px;
+}
+
+.analogyArea{
+	top: -250px;
+	left:30px;
+	margin-bottom: -200px;
+	max-width:90%;
+}
+
+.analogyTable .analogyTableheader td{
+	padding: 10px;
+}
+
+.analogyTable .analogyTableheader .size1{
+	width:220px;
+}
+
+.analogyTable .analogyTableheader .size2{
+	width:260px;
+}
+
+
+.analogyTable .analogyTableheader .size3{
+	width:120px;
+}
+
+.analogyTable .patrenStr{
+	padding: 5px;
+}
+
+.analogyTable .patrenNum {
+	padding-top: 8px;
+	text-align:right;
+}
+
+.spanCase1{
+	position: relative;
+	top: 0;
+	float:left;
+}
+
+.spanCase3 {
+	margin-left:60px;
+}
+
+.shape {
+	clear: both;
+	margin-bottom:0px;
+}
+
+.predictionTable td{
+	padding: 5px;
+}
+
+.predictionTable .contributionValue {
+	width:30px;
+	text-align:right;
+	border-left-style: hidden;
+}
+
+.predictionTable td div{
+	background: linear-gradient(to right, blue, white);
+	margin-bottom:0px;
+}
+
+.per35{
+	width:35%;
+}
+
+.per25{
+	width:25%;
+}
+
+.per15{
+	width:15%;
+}
+
+.per13{
+	width:13%;
+}
+
+
