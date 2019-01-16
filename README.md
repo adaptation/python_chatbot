@@ -22,10 +22,10 @@ create user 'demochat'@'localhost' identified by 'demochat';
 grant all on chatbotdemo.* to 'demochat'@'localhost' identified by 'demochat'; 
 ```
 ↓  
-`manage.py migrate`
+`python manage.py migrate`
 
 ### 起動コマンド
-`manage.py runserver 0.0.0.0:8000`
+`python manage.py runserver 0.0.0.0:8000`
 
 
 ### アクセスURL
