@@ -102,3 +102,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# 休暇届テンプレート配置ディレクトリ
+tools/template/*
+!.gitkeep
+# 休暇届出力用ディレクトリ
+tools/output/*
+!.gitkeep
