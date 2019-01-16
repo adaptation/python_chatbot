@@ -38,6 +38,5 @@ http://localhost:8000/demo/demochat/
 ◯ チャットボットのアイコン用に下記ファイルをローカルに配置する  
 ```
 demo/static/img/ico_user.jpg  
-demo/static/img/ico_robot.jpg  
-demo/static/img/ico_send.jpg  
+demo/static/img/ico_robot.jpg   
 ```
