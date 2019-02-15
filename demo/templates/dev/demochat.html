@@ -187,6 +187,28 @@ function sedMessage(msg){
 		},
 		'success':function(data){
 			viewAnswer(data["resmsg"]);
+			// 送信ボタン(画像)クリック時の動作
+			$("#makekyukabtn").click(makeKyuka);
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown, response){
+			alert("会話失敗(>_<;)");
+		}
+	});
+}
+
+// 休暇届作成関数
+function makeKyuka(){
+	var token = $("input[name='csrfmiddlewaretoken']").val();
+	$.ajax({
+		'url':"/demo/demochat/makekyuka",
+		'type':'POST',
+		'dataType':'json',
+		timeout: 10000,
+		headers: {
+			'X-CSRFToken' : token
+		},
+		'success':function(data){
+			viewAnswer(data["resmsg"]);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown, response){
 			alert("会話失敗(>_<;)");

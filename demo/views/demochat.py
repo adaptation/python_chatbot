@@ -78,18 +78,24 @@ def conversation(request):
 	# 発話解析
 	words = msgMng.extractWords(user_msg)
 	if len(words) <= 1: # 主語、述語がなければ定型文を返却
-		res = json.dumps({'resmsg':'よくわかんないな。。'})
+		res = json.dumps({'resmsg':'よくわかんないな...'})
 		return HttpResponse(res)
 	
 	msgMng.analyzeMessage(words)
-	
-	res = json.dumps({'resmsg':'おーけー！！<br>' + msgMng.getSystemMessage() + 'んだな。<br>休むかい？'})
+
+	resmsg = 'おーけー！！<br>' + msgMng.getSystemMessage() + 'んだな。<br>休むかい？'
+	resmsg = resmsg + "<input type=\"button\" value=\"はい\" class='form-control' id='makekyukabtn'>"
+	res = json.dumps({'resmsg':resmsg})
 	return HttpResponse(res)
 	
 # 休暇届け作成
 def makeExcel(request):
-	subprocess.run("C:/Program Files/WORK/chatbot_demo/tools/excel_action.bat" + " TYOKI 体調不良 1")
+	batchPath = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/").replace("demo/views", "tools/excel_action.bat")
+	subprocess.run(batchPath + " TYOKI 体調不良 1")
 	
+	res = json.dumps({'resmsg':'おーけー！！<br>' +
+		'休暇届を作成したぜ。'})
+	return HttpResponse(res)
 
 """
 セッション管理クラス
@@ -154,6 +160,8 @@ class ChatMessage():
 	def analyzeMessage(self, msgs):
 		self.syugo = msgs[0]
 		self.jyutsugo = msgs[len(msgs)-1]
+
+		print(msgs)
 		
 		# 原因に対する応答を構築
 		self.makeMessage(1)
