@@ -12,9 +12,9 @@ from email.message import EmailMessage
 from email.policy import SMTP
 
 FROM_ADDR_NAME = u"休暇届自動送信システム"
-FROM_ADDRESS = "送信元アドレス@XXX"
-TO_ADDRESS = "送信先先アドレス@XXX"
-ATTACHED_FILE_PATH = r"./output/"
+FROM_ADDRESS = "送信元メールアドレス@gmail.com"
+TO_ADDRESS = "送信先メールアドレス@gmail.com"
+ATTACHED_FILE_PATH = r"添付ファイル格納先ディレクトリ/tools/output/"
 
 # メールを送信するSMTPサーバを指定
 """
@@ -24,8 +24,8 @@ https://support.google.com/mail/answer/7126229?hl=ja&visit_id=636859852643918914
 """
 SMTP_SERVER_HOST = "smtp.gmail.com"
 SMTP_SERVER_PORT = 587
-SMTP_LOGIN_ID = "Gmailメールアドレス"
-SMTP_LOGIN_PASSWORD = "Gmailパスワード"
+SMTP_LOGIN_ID = "Googleアカウント XXX@gmail.com"
+SMTP_LOGIN_PASSWORD = "Googleログインパスワード"
 
 def main(attached_file_name, applicant, reason, applicant_address):
 	"""
@@ -94,7 +94,7 @@ def main(attached_file_name, applicant, reason, applicant_address):
 	
 	try:
 		msg = create_message(from_addr, to_addr, cc_addr, subject, body, mime, attach_file)
-		raise
+		# raise
 		send(from_addr, to_addr, msg)
 		return 0
 		
