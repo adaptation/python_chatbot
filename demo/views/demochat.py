@@ -114,8 +114,8 @@ def conversation(request):
 			request.session["reason"] = msgMng.getSystemMessage()
 
 			resmsg = 'おーけー！！<br>' + msgMng.getSystemMessage() + 'んだな。<br>休むかい？'
-           	resmsg = resmsg + "<input type=\"button\" value=\"はい\" class='form-control' id='makekyukabtn'>"
-           	res = json.dumps({'resmsg':resmsg})
+			resmsg = resmsg + "<input type=\"button\" value=\"はい\" class='form-control makekyukabtn'>"
+			res = json.dumps({'resmsg':resmsg})
 
 		elif status == STATUS_STANDBY:
 			# 情報待ち
@@ -126,27 +126,21 @@ def conversation(request):
 			username = TENTATIVE_USER_NAME
 			reason = request.session["reason"]
 
-			# 休暇届ファイルの作成
-			# TODO:休暇届ファイル呼び出しメソッドマージ
-			makeExcel(request)
-			#batch_path = r"Excelファイル作成バッチディレクトリ/tools/excel_action.bat"
-			#options = " " + username + " " + reason + " " + str(TENTATIVE_DATE_RANGE)
-			#cmd = batch_path + options
-			#subprocess.call(cmd, shell=True)
-
 			# 休暇届メールの送信
 			ret = sendmail_module.main(OUTPUT_FILE_NAME, username, reason, TENTATIVE_USER_MAILADDRESS)
 			if ret == 0:
 				# 送信成功
-				res = json.dumps({'resmsg':'おーけー！！<br>会社には僕からメールを送っておくよ！<br>ゆっくり休んでね！'})
+				res = json.dumps({'resmsg':'おーけー！！<br>会社には僕からメールを送っておいたぜ！'})
 				request.session["status"] = STATUS_COMPLETE
 			else:
 				# 送信失敗
 				res = json.dumps({'resmsg':'あれれ……。<br>今は会社にメールを送れないみたい。<br>悪いけど、直接連絡してくれないかな…。'})
+				request.session["status"] = STATUS_INIT
 
 		elif status == STATUS_COMPLETE:
 			# 全情報取得完了の状態からは定型文を返す
 			res = json.dumps({'resmsg':'早く休めよ！'})
+			request.session["status"] = STATUS_INIT
 
 
 		return HttpResponse(res)
@@ -157,8 +151,7 @@ def conversation(request):
 # 休暇届け作成
 def makeExcel(request):
 	batchPath = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/").replace("demo/views", "tools/excel_action.bat")
-	subprocess.run(batchPath + " TYOKI 体調不良 1")
-	
+	subprocess.run(batchPath + " 樗木辰哉 体調不良 1")
 
 	res = json.dumps({'resmsg':'おーけー！！<br>' +
 		'休暇届を作成したぜ。'})
@@ -196,11 +189,11 @@ class ChatMessage():
 		
 		# 現在のサーバー時刻により、あいさつを設定する
 		now = int(datetime.now().strftime("%H"))
-		if now >= 4 and now < 12:    # 4時以降～12時以前は午前中
+		if now >= 4 and now < 12:	# 4時以降～12時以前は午前中
 			firstMsg =  "おはよう、"
 		elif now >= 12 and now < 17: # 12時以降～17時以前は午後
 			firstMsg =  "こんにちは、"
-		else:                        # 上記時間帯以外は夜
+		else:						# 上記時間帯以外は夜
 			firstMsg =  "こんばんは、"
 		firstMsg = firstMsg + TENTATIVE_USER_NAME + "\n"
 		secondMsg = "今回の用件はなんだい？？"

@@ -188,7 +188,7 @@ function sedMessage(msg){
 		'success':function(data){
 			viewAnswer(data["resmsg"]);
 			// 送信ボタン(画像)クリック時の動作
-			$("#makekyukabtn").click(makeKyuka);
+			$(".makekyukabtn").click(makeKyuka);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown, response){
 			alert("会話失敗(>_<;)");
