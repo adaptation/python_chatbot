@@ -7,8 +7,9 @@ echo 'Excel帳票作成を開始します。'
 #[DateTime]::ParseExact("20130209","yyyyMMdd",$null).ToString("yyyy")
 
 # --- 定数定義 ---
-[String] $OutPutPath = (Convert-Path .) + '\output' # 帳票出力ディレクトリ
-[String] $TempleFilePath = (Convert-Path .) + '\template\休暇届フォーマット.xlsx' # テンプレートパス
+[String] $CurrentPath = (Split-Path -Parent $MyInvocation.MyCommand.Path)
+[String] $OutPutPath = $CurrentPath + '\output' # 帳票出力ディレクトリ
+[String] $TempleFilePath = $CurrentPath + '\template\休暇届フォーマット.xlsx' # テンプレートパス
 [String] $NewFilePath = $OutPutPath + '\休暇届.xlsx' # 加工後パス
 [String] $SheetName = '休暇届' # 帳票シート名
 [String] $UserName = 'TestUser' # Excel操作ユーザー
