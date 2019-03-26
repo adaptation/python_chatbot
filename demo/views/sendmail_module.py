@@ -15,6 +15,7 @@ FROM_ADDR_NAME = u"休暇届自動送信システム"
 FROM_ADDRESS = "送信元メールアドレス@gmail.com"
 TO_ADDRESS = "送信先メールアドレス@gmail.com"
 ATTACHED_FILE_PATH = r"添付ファイル格納先ディレクトリ/tools/output/"
+ATTACHED_FILE_PATH = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/").replace("demo/views", "tools/output/")
 
 # メールを送信するSMTPサーバを指定
 """
